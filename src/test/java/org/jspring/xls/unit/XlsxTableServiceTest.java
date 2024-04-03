@@ -46,12 +46,12 @@ public class XlsxTableServiceTest {
         XSSFSheet sheet = cellSearch.sheetInfo().getSheet();
         assertEquals(2, sheet.getPhysicalNumberOfRows(), "Created table should have 10 cells.");
 
-        Row firstRow = sheet.getRow(0);
-        assertEquals(5, firstRow.getPhysicalNumberOfCells(), "First row should have 5 cells.");
+        Row lastRow = sheet.getRow(2);
+        assertEquals(5, lastRow.getPhysicalNumberOfCells(), "Last row should have 5 cells.");
 
-        Cell firstCell = firstRow.getCell(0);
-        Cell lastCell = getLastCell();
-        assertEquals(11, firstCell.getNumericCellValue(), "First cell value is wrong");
+        Cell firstCell = lastRow.getCell(0);
+        Cell lastCell = lastRow.getCell(4);
+        assertEquals(6, firstCell.getNumericCellValue(), "First cell value is wrong");
         assertEquals(101, lastCell.getNumericCellValue(), "Last cell value is wrong");
     }
 
@@ -80,9 +80,90 @@ public class XlsxTableServiceTest {
         XSSFSheet sheet = cellSearch.sheetInfo().getSheet();
         xlsxTableService.populateWorksheetWithData(cellSearch, 1, data);
         assertEquals(1, sheet.getPhysicalNumberOfRows(), "Created table should have 1 row.");
-        Row firstRow = sheet.getRow(0);
+        Row firstRow = sheet.getRow(1);
         assertEquals(1, firstRow.getPhysicalNumberOfCells(), "First row should have 1 cell.");
         Cell firstCell = firstRow.getCell(0);
         assertEquals(1, firstCell.getNumericCellValue(), "Cell value is wrong");
     }
+
+    @Test
+    @DisplayName("When single cell data is given and a cellSearch is set, the worksheet should contain a table with one cell starting from the cellSearch")
+    public void populateWorksheetWithData_ShouldReturnAOneCellTableAtRightPosition_GivenSingleCellData() throws Exception {
+        List<Integer> data = List.of(12);
+        // customize cellSearch
+        SheetInfo sheetInfo = cellSearch.sheetInfo();
+        cellSearch = new CellSearch<>(
+                sheetInfo,
+                new CellCoordinates<>(1, 3, null, null)
+        );
+
+        XSSFSheet sheet = cellSearch.sheetInfo().getSheet();
+        xlsxTableService.populateWorksheetWithData(cellSearch, 1, data);
+        assertEquals(1, sheet.getPhysicalNumberOfRows(), "Created table should have 1 row.");
+        Row firstRow = sheet.getRow(1);
+        assertEquals(1, firstRow.getPhysicalNumberOfCells(), "First row should have 1 cell.");
+        Cell firstCell = firstRow.getCell(3);
+        assertEquals(12, firstCell.getNumericCellValue(), "Cell value is wrong");
+    }
+
+    @Test
+    @DisplayName("When multiple cell data are given and a cellSearch is set, the worksheet should contain a table with multiple cell starting from the cellSearch")
+    public void populateWorksheetWithData_ShouldReturnAOneCellTableAtRightPosition_GivenMultipleCellData() throws Exception {
+        List<Integer> data = List.of(12, 1, 56, 78, 23, 3, 67, 9);
+        // customize cellSearch
+        SheetInfo sheetInfo = cellSearch.sheetInfo();
+        cellSearch = new CellSearch<>(
+                sheetInfo,
+                new CellCoordinates<>(2, 3, null, null)
+        );
+
+        XSSFSheet sheet = cellSearch.sheetInfo().getSheet();
+        xlsxTableService.populateWorksheetWithData(cellSearch, 3, data);
+        assertEquals(3, sheet.getPhysicalNumberOfRows(), "Created table should have 3 rows.");
+        Row lastRow = sheet.getRow(4);
+        assertEquals(2, lastRow.getPhysicalNumberOfCells(), "Last row should have 2 cells.");
+        Cell lastCell = lastRow.getCell(4);
+        assertEquals(9, lastCell.getNumericCellValue(), "Cell value is wrong");
+    }
+
+    @Test
+    @DisplayName("Write table with multiple cell with double data")
+    public void populateWorksheetWithMultipleDoubleData() throws Exception {
+        List<Double> data = List.of(12.3, 1.5, 56.6, 78.0, 23.0, 3.1, 67.2, 9.5);
+        // customize cellSearch
+        SheetInfo sheetInfo = cellSearch.sheetInfo();
+        cellSearch = new CellSearch<>(
+                sheetInfo,
+                new CellCoordinates<>(2, 3, null, null)
+        );
+
+        XSSFSheet sheet = cellSearch.sheetInfo().getSheet();
+        xlsxTableService.populateWorksheetWithData(cellSearch, 3, data);
+        assertEquals(3, sheet.getPhysicalNumberOfRows(), "Created table should have 3 rows.");
+        Row lastRow = sheet.getRow(4);
+        assertEquals(2, lastRow.getPhysicalNumberOfCells(), "Last row should have 2 cells.");
+        Cell lastCell = lastRow.getCell(4);
+        assertEquals(9.5, lastCell.getNumericCellValue(), "Cell value is wrong");
+    }
+
+    @Test
+    @DisplayName("Write table with multiple cell with String data")
+    public void populateWorksheetWithMultipleStringData() throws Exception {
+        List<String> data = List.of("12.3", "1.5", "56.6", "78.0", "23.0", "3.1", "67.2", "9.4");
+        // customize cellSearch
+        SheetInfo sheetInfo = cellSearch.sheetInfo();
+        cellSearch = new CellSearch<>(
+                sheetInfo,
+                new CellCoordinates<>(2, 3, null, null)
+        );
+
+        XSSFSheet sheet = cellSearch.sheetInfo().getSheet();
+        xlsxTableService.populateWorksheetWithData(cellSearch, 3, data);
+        assertEquals(3, sheet.getPhysicalNumberOfRows(), "Created table should have 3 rows.");
+        Row lastRow = sheet.getRow(4);
+        assertEquals(2, lastRow.getPhysicalNumberOfCells(), "Last row should have 2 cells.");
+        Cell lastCell = lastRow.getCell(4);
+        assertEquals("9.4", lastCell.getStringCellValue(), "Cell value is wrong");
+    }
+
 }

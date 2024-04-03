@@ -13,9 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class XlsxReadingServiceTest {
 
-    public static final String TEMPLATE_PATH = "../dataexport-application/src/main/resources/xlsx/template/Risconti.xls";
-    public static final String MISSING_TEMPLATE_PATH = "../dataexport-application/src/main/resources/xlsx/template/missingTemplate.xlsx";
-    public static final String TEMPLATE_BYTE_FILE = "../dataexport-application/src/main/resources/xlsx/output/testTemplate.xlsx";
+    public static final String TEMPLATE_PATH = "src/main/resources/xlsx/template/Risconti.xls";
+    public static final String MISSING_TEMPLATE_PATH = "src/main/resources/xlsx/template/missingTemplate.xlsx";
+    public static final String TEMPLATE_BYTE_FILE = "src/main/resources/xlsx/output/testTemplate.xlsx";
 
     @Test
     @DisplayName("Test Reading from a Template with Global Path")

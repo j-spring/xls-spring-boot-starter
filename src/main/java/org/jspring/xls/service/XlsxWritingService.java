@@ -1,6 +1,5 @@
 package org.jspring.xls.service;
 
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.ByteArrayOutputStream;
@@ -43,25 +42,6 @@ public class XlsxWritingService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * Writes a value to a cell in an XLSX workbook.
-     *
-     * @param cell  The cell to write the value to.
-     * @param value The value to write to the cell.
-     * @throws IllegalStateException If the value type is unexpected.
-     */
-    public void writeValue(
-            Cell cell, Object value) {
-
-        switch (value) {
-            case String stringVal -> cell.setCellValue(stringVal);
-            case Double doubleVal -> cell.setCellValue(doubleVal);
-            case Boolean booleanVal -> cell.setCellValue(booleanVal);
-            default -> throw new IllegalStateException("Unexpected value type: " + value.getClass().getName());
-        }
-
     }
 
 

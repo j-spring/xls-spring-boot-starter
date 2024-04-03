@@ -7,6 +7,7 @@ import org.jspring.xls.domain.SheetInfo;
 import org.jspring.xls.service.XlsxReadingService;
 import org.jspring.xls.service.XlsxSearchingService;
 import org.jspring.xls.service.XlsxWritingService;
+import org.jspring.xls.utils.CellUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -51,7 +52,7 @@ class XlsxWritingServiceTest {
 
         if (cell.isPresent()) {
             System.out.println("found!!!");
-            xlsxWritingService.writeValue(
+            CellUtils.writeValue(
                     xlsxSearchingService.getRightCell(cell.get()),
                     "voce1234"
             );
@@ -83,7 +84,7 @@ class XlsxWritingServiceTest {
 
         if (cellX.isPresent() && cellY.isPresent()) {
             System.out.println("found coordinates: x -> " + cellX.get().getColumnIndex() + " y -> " + cellY.get().getRowIndex());
-            xlsxWritingService.writeValue(
+            CellUtils.writeValue(
                     xlsxSearchingService.getCellByCoordinates(cellX.get(), cellY.get()),
                     12.34
             );
