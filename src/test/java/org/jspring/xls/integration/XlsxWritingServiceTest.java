@@ -21,6 +21,9 @@ import static org.jspring.xls.domain.CellCoordinates.SearchBuilder;
 @SpringBootTest
 class XlsxWritingServiceTest {
 
+    private static final String SHEET_NAME = "One";
+    private static final String OUTPUT_FILE_PATH = "src/main/resources/output/blank-mod.xls";
+
     @Autowired
     private XlsxReadingService xlsxReadingService;
     @Autowired
@@ -35,7 +38,7 @@ class XlsxWritingServiceTest {
     @BeforeEach
     public void setUp() {
         workbook = xlsxReadingService.readFromTemplate();
-        sheetInfo = new SheetInfo(workbook, "Risconti");
+        sheetInfo = new SheetInfo(workbook, SHEET_NAME);
     }
 
 
@@ -57,7 +60,7 @@ class XlsxWritingServiceTest {
                     "voce1234"
             );
 
-            xlsxWritingService.writeFile(workbook, "src/main/resources/xlsx/output/risconti-mod.xls");
+            xlsxWritingService.writeFile(workbook, OUTPUT_FILE_PATH);
         }
 
     }
@@ -89,7 +92,7 @@ class XlsxWritingServiceTest {
                     12.34
             );
 
-            xlsxWritingService.writeFile(workbook, "src/main/resources/xlsx/output/risconti-mod.xls");
+            xlsxWritingService.writeFile(workbook, OUTPUT_FILE_PATH);
         }
 
     }
@@ -115,7 +118,7 @@ class XlsxWritingServiceTest {
             formulaEvaluator.evaluate(cellRight);
         }
 
-        xlsxWritingService.writeFile(workbook, "src/main/resources/xlsx/output/risconti-mod.xls");
+        xlsxWritingService.writeFile(workbook, OUTPUT_FILE_PATH);
 
     }
 

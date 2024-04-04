@@ -13,9 +13,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class XlsxReadingServiceTest {
 
-    public static final String TEMPLATE_PATH = "src/main/resources/xlsx/template/Risconti.xls";
-    public static final String MISSING_TEMPLATE_PATH = "src/main/resources/xlsx/template/missingTemplate.xlsx";
-    public static final String TEMPLATE_BYTE_FILE = "src/main/resources/xlsx/output/testTemplate.xlsx";
+    private static final String TEMPLATE_PATH = "src/main/resources/template/Blank.xls";
+    private static final String MISSING_TEMPLATE_PATH = "src/main/resources/template/missingTemplate.xlsx";
+    private static final String TEMPLATE_BYTE_FILE = "src/main/resources/output/testTemplate.xlsx";
+    private static final String SHEET_NAME = "One";
 
     @Test
     @DisplayName("Test Reading from a Template with Global Path")
@@ -25,7 +26,7 @@ class XlsxReadingServiceTest {
         XSSFWorkbook book = service.readFromTemplate();
 
         assertNotNull(book);
-        assertEquals("Risconti", book.getSheetAt(0).getSheetName());
+        assertEquals(SHEET_NAME, book.getSheetAt(0).getSheetName());
     }
 
     @Test
@@ -36,7 +37,7 @@ class XlsxReadingServiceTest {
         XSSFWorkbook book = service.readFromTemplate(TEMPLATE_BYTE_FILE);
 
         assertNotNull(book);
-        assertEquals("Risconti", book.getSheetAt(0).getSheetName());
+        assertEquals(SHEET_NAME, book.getSheetAt(0).getSheetName());
     }
 
     @Test
@@ -58,6 +59,6 @@ class XlsxReadingServiceTest {
         XSSFWorkbook book = service.readFromByteArray(fileContent);
 
         assertNotNull(book);
-        assertEquals("Risconti", book.getSheetAt(0).getSheetName());
+        assertEquals(SHEET_NAME, book.getSheetAt(0).getSheetName());
     }
 }

@@ -4,21 +4,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 
 @ConfigurationProperties(prefix = "spring.export.xlsx")
-public class XlsProperties {
-    private static final String DEFAULT_TEMPLATE_PATH = "src/main/resources/templates/xlsx/model.xls";
+public record XlsProperties(String templatePath) {
 
-    private String templatePath;
+    public static final String DEFAULT_TEMPLATE_PATH = "src/main/resources/template/Blank.xls";
 
-    public XlsProperties(String templatePath) {
-        this.templatePath = templatePath;
-    }
-
-    public String getTemplatePath() {
+    public String templatePath() {
         return templatePath != null ? templatePath : DEFAULT_TEMPLATE_PATH;
     }
-
-    public void setTemplatePath(String templatePath) {
-        this.templatePath = templatePath;
-    }
-
 }

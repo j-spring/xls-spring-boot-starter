@@ -2,4 +2,4 @@
 spring:
   export:
     xlsx:
-      templatePath: src/main/resources/xlsx/template/Blank.xls
+      templatePath: src/main/resources/template/Blank.xls

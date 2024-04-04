@@ -18,6 +18,8 @@ import static org.jspring.xls.domain.CellCoordinates.SearchBuilder;
 @SpringBootTest
 class XlsxReadingServiceTest {
 
+    private static final String SHEET_NAME = "One";
+
     @Autowired
     private XlsxReadingService xlsxReadingService;
     @Autowired
@@ -29,7 +31,7 @@ class XlsxReadingServiceTest {
     @BeforeEach
     public void setUp() {
         XSSFWorkbook workbook = xlsxReadingService.readFromTemplate();
-        sheetInfo = new SheetInfo(workbook, "Risconti");
+        sheetInfo = new SheetInfo(workbook, SHEET_NAME);
     }
 
     @Test

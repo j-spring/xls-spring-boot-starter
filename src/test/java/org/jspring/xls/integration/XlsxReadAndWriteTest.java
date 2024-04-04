@@ -22,6 +22,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 class XlsxReadAndWriteTest {
 
+    private static final String SHEET_NAME = "One";
+    private static final String OUTPUT_FILE_PATH = "src/main/resources/output/blank-mod.xls";
+
     @Autowired
     private XlsxReadingService xlsxReadingService;
     @Autowired
@@ -36,7 +39,7 @@ class XlsxReadAndWriteTest {
     @DisplayName("Read Xlsx from template")
     void readFromTemplate() {
         XSSFWorkbook workbook = xlsxReadingService.readFromTemplate();
-        SheetInfo sheetInfo = new SheetInfo(workbook, "Risconti");
+        SheetInfo sheetInfo = new SheetInfo(workbook, SHEET_NAME);
         assertNotNull(sheetInfo);
     }
 
@@ -44,12 +47,12 @@ class XlsxReadAndWriteTest {
     @DisplayName("Write Xlsx to file")
     void writeToFile() {
         XSSFWorkbook workbook = xlsxReadingService.readFromTemplate();
-        SheetInfo sheetInfo = new SheetInfo(workbook, "Risconti");
+        SheetInfo sheetInfo = new SheetInfo(workbook, SHEET_NAME);
         assertNotNull(sheetInfo);
-        xlsxWritingService.writeFile(workbook, "src/main/resources/xlsx/output/risconti-mod.xls");
+        xlsxWritingService.writeFile(workbook, OUTPUT_FILE_PATH);
 
-        XSSFWorkbook workbookMod = xlsxReadingService.readFromTemplate("src/main/resources/xlsx/output/risconti-mod.xls");
-        SheetInfo sheetInfoMod = new SheetInfo(workbookMod, "Risconti");
+        XSSFWorkbook workbookMod = xlsxReadingService.readFromTemplate(OUTPUT_FILE_PATH);
+        SheetInfo sheetInfoMod = new SheetInfo(workbookMod, SHEET_NAME);
         assertNotNull(sheetInfoMod);
     }
 
@@ -61,7 +64,7 @@ class XlsxReadAndWriteTest {
         assertNotNull(bytes);
 
         XSSFWorkbook workbookFromByteArray = xlsxReadingService.readFromByteArray(bytes);
-        SheetInfo sheetInfoFromByteArray = new SheetInfo(workbookFromByteArray, "Risconti");
+        SheetInfo sheetInfoFromByteArray = new SheetInfo(workbookFromByteArray, SHEET_NAME);
         assertNotNull(sheetInfoFromByteArray);
     }
 
@@ -70,16 +73,14 @@ class XlsxReadAndWriteTest {
     @DisplayName("Add table to existing file")
     void addTableToExistingFile() {
         XSSFWorkbook workbook = xlsxReadingService.readFromTemplate();
-        SheetInfo sheetInfo = new SheetInfo(workbook, "Risconti");
+        SheetInfo sheetInfo = new SheetInfo(workbook, SHEET_NAME);
         assertNotNull(sheetInfo);
 
         // add table
         tableService.populateWorksheetWithData(
                 new CellSearch<>(
-                        new SheetInfo(workbook, "Risconti"),
+                        new SheetInfo(workbook, SHEET_NAME),
                         CellCoordinates.SearchBuilder.init()
-                                //.rowNumber(4)
-                                //.columnNumber(3)
                                 .address("D6")
                                 .build()
                 ),
@@ -88,11 +89,11 @@ class XlsxReadAndWriteTest {
         );
 
         // write new file
-        xlsxWritingService.writeFile(workbook, "src/main/resources/xlsx/output/risconti-mod.xls");
+        xlsxWritingService.writeFile(workbook, OUTPUT_FILE_PATH);
 
         // read file just created
-        XSSFWorkbook workbookMod = xlsxReadingService.readFromTemplate("src/main/resources/xlsx/output/risconti-mod.xls");
-        SheetInfo sheetInfoMod = new SheetInfo(workbookMod, "Risconti");
+        XSSFWorkbook workbookMod = xlsxReadingService.readFromTemplate(OUTPUT_FILE_PATH);
+        SheetInfo sheetInfoMod = new SheetInfo(workbookMod, SHEET_NAME);
         assertNotNull(sheetInfoMod);
     }
 
@@ -100,13 +101,13 @@ class XlsxReadAndWriteTest {
     @DisplayName("Add table of strings to existing file")
     void addTableOfStringsToExistingFile() {
         XSSFWorkbook workbook = xlsxReadingService.readFromTemplate();
-        SheetInfo sheetInfo = new SheetInfo(workbook, "Risconti");
+        SheetInfo sheetInfo = new SheetInfo(workbook, SHEET_NAME);
         assertNotNull(sheetInfo);
 
         // add table
         tableService.populateWorksheetWithData(
                 new CellSearch<>(
-                        new SheetInfo(workbook, "Risconti"),
+                        new SheetInfo(workbook, SHEET_NAME),
                         CellCoordinates.SearchBuilder.init()
                                 .address("D6")
                                 .build()
@@ -116,11 +117,11 @@ class XlsxReadAndWriteTest {
         );
 
         // write new file
-        xlsxWritingService.writeFile(workbook, "src/main/resources/xlsx/output/risconti-mod.xls");
+        xlsxWritingService.writeFile(workbook, OUTPUT_FILE_PATH);
 
         // read file just created
-        XSSFWorkbook workbookMod = xlsxReadingService.readFromTemplate("src/main/resources/xlsx/output/risconti-mod.xls");
-        SheetInfo sheetInfoMod = new SheetInfo(workbookMod, "Risconti");
+        XSSFWorkbook workbookMod = xlsxReadingService.readFromTemplate(OUTPUT_FILE_PATH);
+        SheetInfo sheetInfoMod = new SheetInfo(workbookMod, SHEET_NAME);
         assertNotNull(sheetInfoMod);
     }
 
@@ -128,7 +129,7 @@ class XlsxReadAndWriteTest {
     @DisplayName("Add table to existing file using coordinates")
     void addTableToExistingFileUsingCoordinates() {
         XSSFWorkbook workbook = xlsxReadingService.readFromTemplate();
-        SheetInfo sheetInfo = new SheetInfo(workbook, "Risconti");
+        SheetInfo sheetInfo = new SheetInfo(workbook, SHEET_NAME);
         assertNotNull(sheetInfo);
 
         Optional<Cell> cellX = searchingService.searchCellBySheetAndCoordinates(
@@ -151,7 +152,7 @@ class XlsxReadAndWriteTest {
         // add table
         tableService.populateWorksheetWithData(
                 new CellSearch<>(
-                        new SheetInfo(workbook, "Risconti"),
+                        new SheetInfo(workbook, SHEET_NAME),
                         CellCoordinates.SearchBuilder.init()
                                 .rowNumber(cellByCoordinates.getRowIndex())
                                 .columnNumber(cellByCoordinates.getColumnIndex())
@@ -162,11 +163,11 @@ class XlsxReadAndWriteTest {
         );
 
         // write new file
-        xlsxWritingService.writeFile(workbook, "src/main/resources/xlsx/output/risconti-mod.xls");
+        xlsxWritingService.writeFile(workbook, OUTPUT_FILE_PATH);
 
         // read file just created
-        XSSFWorkbook workbookMod = xlsxReadingService.readFromTemplate("src/main/resources/xlsx/output/risconti-mod.xls");
-        SheetInfo sheetInfoMod = new SheetInfo(workbookMod, "Risconti");
+        XSSFWorkbook workbookMod = xlsxReadingService.readFromTemplate(OUTPUT_FILE_PATH);
+        SheetInfo sheetInfoMod = new SheetInfo(workbookMod, SHEET_NAME);
         assertNotNull(sheetInfoMod);
     }
 
