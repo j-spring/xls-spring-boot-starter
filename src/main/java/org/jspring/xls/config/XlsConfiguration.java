@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 
 @AutoConfiguration
 @EnableConfigurationProperties(XlsProperties.class)
-@ConditionalOnClass(CellWrapper.class)
+//@ConditionalOnClass(CellWrapper.class)
 public class XlsConfiguration {
 
     @Bean
