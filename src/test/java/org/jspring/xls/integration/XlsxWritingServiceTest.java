@@ -3,6 +3,7 @@ package org.jspring.xls.integration;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.jspring.xls.config.XlsConfiguration;
 import org.jspring.xls.domain.SheetInfo;
 import org.jspring.xls.service.XlsxReadingService;
 import org.jspring.xls.service.XlsxSearchingService;
@@ -18,7 +19,7 @@ import java.util.Optional;
 
 import static org.jspring.xls.domain.CellCoordinates.SearchBuilder;
 
-@SpringBootTest
+@SpringBootTest(classes = XlsConfiguration.class)
 class XlsxWritingServiceTest {
 
     private static final String SHEET_NAME = "One";

@@ -2,6 +2,7 @@ package org.jspring.xls.integration;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.jspring.xls.config.XlsConfiguration;
 import org.jspring.xls.domain.CellCoordinates;
 import org.jspring.xls.domain.CellSearch;
 import org.jspring.xls.domain.SheetInfo;
@@ -9,17 +10,21 @@ import org.jspring.xls.service.XlsxReadingService;
 import org.jspring.xls.service.XlsxSearchingService;
 import org.jspring.xls.service.XlsxTableService;
 import org.jspring.xls.service.XlsxWritingService;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest
+@SpringBootTest(classes = XlsConfiguration.class)
 class XlsxReadAndWriteTest {
 
     private static final String SHEET_NAME = "One";
