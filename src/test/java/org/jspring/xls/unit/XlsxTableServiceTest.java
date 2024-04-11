@@ -166,4 +166,24 @@ public class XlsxTableServiceTest {
         assertEquals("9.4", lastCell.getStringCellValue(), "Cell value is wrong");
     }
 
+    @Test
+    @DisplayName("Write table with multiple cell with double data and a two-cell depth")
+    public void populateWorksheetWithMultipleDoubleDataAndDepth() throws Exception {
+        List<Double> data = List.of(12.3, 1.5, 56.6, 78.0, 23.0, 3.1, 67.2, 9.5);
+        // customize cellSearch
+        SheetInfo sheetInfo = cellSearch.sheetInfo();
+        cellSearch = new CellSearch<>(
+                sheetInfo,
+                new CellCoordinates<>(2, 3, null, null)
+        );
+
+        XSSFSheet sheet = cellSearch.sheetInfo().getSheet();
+        xlsxTableService.populateWorksheetWithData(cellSearch, 3, data);
+        assertEquals(3, sheet.getPhysicalNumberOfRows(), "Created table should have 3 rows.");
+        Row lastRow = sheet.getRow(4);
+        assertEquals(2, lastRow.getPhysicalNumberOfCells(), "Last row should have 2 cells.");
+        Cell lastCell = lastRow.getCell(4);
+        assertEquals(9.5, lastCell.getNumericCellValue(), "Cell value is wrong");
+    }
+
 }
